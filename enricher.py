@@ -11,7 +11,6 @@ from termcolor import colored
 #Variables for extracting failed IPv4 from logs
 search_string = 'failed password'
 suspicious_ips = []
-ips_to_enrich = []
 ipv4_pattern = r'\b(?:\d{1,3}\.){3}\d{1,3}\b'
 
 
@@ -37,10 +36,7 @@ and also get the user for which they failed
 '''
 
 
-for ipv4, count in attempt_count.items():
-    if count >=5:
-        #print(f'{ipv4} tried and failed SSH login {count} times')
-        ips_to_enrich.append(ipv4)
+ips_to_enrich = list(filter(lambda x: attempt_count[x] >= 5, attempt_count))
         
 print(
      colored(
